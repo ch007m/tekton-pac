@@ -226,6 +226,7 @@ kubectl apply -f https://raw.githubusercontent.com/ch007m/tekton-pac/main/k8s//c
 ```bash
 kubectl create clusterrolebinding admin-sa-default-quarkus-demo --clusterrole=admin --serviceaccount=quarkus-demo:default
 ```
+>**Note**: The application image created is pushed to `ttl.sh/c04768cb-2012-4280-990d-a9adf51c7462` and is available for 2h
 
 Next create a branch and commit a change to trigger a pipelinerun
 
@@ -237,7 +238,7 @@ git branch -D ${BRANCH_NAME}
 git checkout -b ${BRANCH_NAME}
 
 mkdir -p .tekton
-wget https://raw.githubusercontent.com/ch007m/tekton-pac/main/k8s/pipeline-buildpacks.yml -O .tekton/pipelinerun.yaml
+wget https://raw.githubusercontent.com/ch007m/tekton-pac/main/k8s/pipeline-new-buildpacks.yml -O .tekton/pipelinerun.yaml
 
 git add .tekton
 git commit -asm "This is a buildpacks build using TektonCI"
