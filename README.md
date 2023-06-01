@@ -215,6 +215,15 @@ kubectl create clusterrolebinding admin-sa-default-quarkus-demo --clusterrole=ad
 ## Buildpacks build
 
 Scenario to be executed to test the Tekton Buildpack build
+Disable first the [affinity assistant](https://github.com/tektoncd/pipeline/blob/main/config/config-feature-flags.yaml#L32) to use the same PVC
+```bash
+kubectl patch configmap/feature-flags \
+  -n tekton-pipelines \
+  --type merge \
+  -p '{"data":{"disable-affinity-assistant":"true"}}'
+```
+
+Next create a branch and commit a change to trigger a pipelinerun
 
 ```bash
 BRANCH_NAME=pac-buildpack-build
