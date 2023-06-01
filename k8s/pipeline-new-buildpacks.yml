@@ -45,7 +45,7 @@ spec:
             value: $(params.revision)
       - name: buildpacks
         taskRef:
-          name: buildpacks
+          name: buildpacks-phases
         runAfter:
           - fetch-repository
         params:
