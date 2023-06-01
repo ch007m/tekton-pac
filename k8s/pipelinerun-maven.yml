@@ -9,7 +9,7 @@ metadata:
     pipelinesascode.tekton.dev/on-event: "[pull_request, push]"
 
     # The branch or tag we are targeting (ie: main, refs/tags/*)
-    pipelinesascode.tekton.dev/on-target-branch: "[refs/heads/*]"
+    pipelinesascode.tekton.dev/on-target-branch: "pac-maven-build"
 
     # Fetch the needed tasks from hub to reference them as
     # taskRef part of the pipeline.

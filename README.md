@@ -193,7 +193,7 @@ EOF
 
 and to add a `.tekton` folder containing the PipelineRun to be tested/demo
 ```bash
-BRANCH_NAME=pac-maven-test
+BRANCH_NAME=pac-maven-build
 git checkout main
 git push -d origin ${BRANCH_NAME}
 git branch -D ${BRANCH_NAME}
@@ -217,14 +217,14 @@ kubectl create clusterrolebinding admin-sa-default-quarkus-demo --clusterrole=ad
 Scenario to be executed to test the Tekton Buildpack build
 
 ```bash
-BRANCH_NAME=pac-buildpack-test
+BRANCH_NAME=pac-buildpack-build
 git checkout main
 git push -d origin ${BRANCH_NAME}
 git branch -D ${BRANCH_NAME}
 git checkout -b ${BRANCH_NAME}
 
 mkdir -p .tekton
-wget https://raw.githubusercontent.com/redhat-buildpacks/tekton-pac-poc/main/k8s/pipelinerun-buildpack.yml -O .tekton/pipelinerun.yaml
+wget https://raw.githubusercontent.com/redhat-buildpacks/tekton-pac-poc/main/k8s/pipelinerun-buildpacks.yml -O .tekton/pipelinerun.yaml
 
 git add .tekton
 git commit -asm "This is a buildpacks build using TektonCI"

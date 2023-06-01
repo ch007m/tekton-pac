@@ -5,7 +5,7 @@ metadata:
   name: buildpacks
   annotations:
     pipelinesascode.tekton.dev/on-event: "[pull_request, push]"
-    pipelinesascode.tekton.dev/on-target-branch: "[refs/heads/*]"
+    pipelinesascode.tekton.dev/on-target-branch: "pac-buildpack-build"
 
     pipelinesascode.tekton.dev/task: "git-clone"
     pipelinesascode.tekton.dev/task-1: "buildpacks"
