@@ -51,8 +51,10 @@ spec:
         params:
           - name: APP_IMAGE
             value: ttl.sh/c04768cb-2012-4280-990d-a9adf51c7462:2h
-          - name: BUILDER_IMAGE
+          - name: CNB_BUILDER_IMAGE
             value: gcr.io/paketo-buildpacks/builder:tiny
+          - name: CNB_LIFECYCLE_IMAGE
+            value: buildpacksio/lifecycle:0.16.3
           - name: ENV_VARS
             value:
               - "BP_NATIVE_IMAGE=false"
