@@ -32,7 +32,7 @@ spec:
       default: docker.io/buildpacksio/lifecycle:0.10.2@sha256:1bf8d3fc41d2fdf0ee4abdad50038ab8902ef58c74f5bcfc432c26767d889ed0
     - name: CNB_ORDER_PATH
       description: Path resolution for order definition
-      default: ""
+      default: "/cnb/order.toml"
     - name: APP_IMAGE
       description: The name of where to store the app image.
     - name: RUN_IMAGE
@@ -95,9 +95,9 @@ spec:
           chown -R "$(params.USER_ID):$(params.GROUP_ID)" "$path"
         done
         
-        echo "> TODO: To be reviewed"
-        echo "> Create an empty /layers/order.toml file"
-        touch /layers/order.toml
+        #echo "> TODO: To be reviewed"
+        #echo "> Create an empty /layers/order.toml file"
+        #touch /layers/order.toml
 
         echo "> Parsing additional configuration..."
         parsing_flag=""
@@ -165,8 +165,9 @@ spec:
         - name: empty-dir
           mountPath: /tekton/home
       securityContext:
-        runAsUser:  1000 #"$(params.USER_ID)"
-        runAsGroup: 1000 #"$(params.GROUP_ID)"
+        privileged: true
+        #runAsUser:  1000 #"$(params.USER_ID)"
+        #runAsGroup: 1000 #"$(params.GROUP_ID)"
 
     - name: restore
       image: $(params.CNB_LIFECYCLE_IMAGE)
