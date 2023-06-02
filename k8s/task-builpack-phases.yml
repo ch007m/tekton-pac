@@ -165,7 +165,7 @@ spec:
         - name: empty-dir
           mountPath: /tekton/home
       securityContext:
-        privileged: false
+        runAsNonRoot: true
         #runAsUser:  1000 #"$(params.USER_ID)"
         #runAsGroup: 1000 #"$(params.GROUP_ID)"
 
