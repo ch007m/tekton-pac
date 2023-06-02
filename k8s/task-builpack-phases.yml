@@ -87,7 +87,7 @@ spec:
           chown -R "$(params.USER_ID):$(params.GROUP_ID)" "$(workspaces.cache.path)"
         fi
 
-        for path in "/cnb /tekton/home" "/layers" "$(workspaces.source.path)"; do
+        for path in "/tekton/home" "/layers" "$(workspaces.source.path)"; do
           echo "> Setting permissions on '$path'..."
           chown -R "$(params.USER_ID):$(params.GROUP_ID)" "$path"
         done
