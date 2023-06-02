@@ -220,7 +220,7 @@ kubectl patch configmap/feature-flags \
 ```
 Create the PVC used to cache the files
 ```bash
-kubectl apply -f https://raw.githubusercontent.com/ch007m/tekton-pac/main/k8s//cache-pvc.yml -n quarkus-demo 
+kubectl apply -f https://raw.githubusercontent.com/ch007m/tekton-pac/main/k8s/cache-pvc.yml -n quarkus-demo 
 ```
 >**Warning**: Give the `ClusterRole` ADMIN to the Quarkus-demo account (= where pipeline runs)
 ```bash
