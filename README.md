@@ -22,7 +22,7 @@ brew install openshift-pipelines/pipelines-as-code/tektoncd-pac
 
 - Deploy Tekton, Tekton Dashboard
 ```bash
-kubectl apply -f https://github.com/tektoncd/pipeline/releases/download/v0.47.0/release.yaml
+kubectl apply -f https://github.com/tektoncd/pipeline/releases/download/v0.48.0/release.yaml
 kubectl apply -f https://storage.googleapis.com/tekton-releases/dashboard/latest/release.yaml
 ```
 - Create the ingress route to access the Tekton dashboard
