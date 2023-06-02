@@ -30,6 +30,8 @@ spec:
     - name: CNB_LIFECYCLE_IMAGE
       description: The image to use when executing sensitive phases.
       default: docker.io/buildpacksio/lifecycle:0.10.2@sha256:1bf8d3fc41d2fdf0ee4abdad50038ab8902ef58c74f5bcfc432c26767d889ed0
+    - name: CNB_ORDER_PATH
+      description: Path resolution for order definition
     - name: APP_IMAGE
       description: The name of where to store the app image.
     - name: RUN_IMAGE
@@ -149,6 +151,7 @@ spec:
         - "-app=$(workspaces.source.path)/$(params.SOURCE_SUBPATH)"
         - "-group=/layers/group.toml"
         - "-plan=/layers/plan.toml"
+        - "-order=${params.CNB_ORDER_PATH}"
       volumeMounts:
         - name: layers-dir
           mountPath: /layers
