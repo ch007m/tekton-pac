@@ -35,20 +35,27 @@ spec:
       - name: temp
       - name: cache
     tasks:
-      - name: fetch-repository
+      - name: clone-repository
+        params:
+          - name: url
+            value: $(params.git-url)
+          - name: revision
+            value: $(params.revision)
+        runAfter:
+          - init
         taskRef:
           bundle: quay.io/redhat-appstudio-tekton-catalog/task-git-clone:0.1@sha256:458f4853a01c3273bd76076ac1b015d5f901e70fb4b776f788b577adb25bf5f8
           name: git-clone
+        when:
+          - input: $(tasks.init.results.build)
+            operator: in
+            values:
+              - "true"
         workspaces:
           - name: output
-            workspace: source
+            workspace: workspace
           - name: basic-auth
-            workspace: basic-auth
-        params:
-          - name: url
-            value: $(params.repo_url)
-          - name: revision
-            value: $(params.revision)
+            workspace: git-auth
       - name: buildpacks
         taskRef:
           name: buildpacks-phases
