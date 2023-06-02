@@ -59,7 +59,7 @@ spec:
       default: "1000"
     - name: GROUP_ID
       description: The group ID of the builder image user.
-      default: "0"
+      default: "1000"
     - name: USER_HOME
       description: Absolute path to the user's home directory.
       default: /tekton/home
@@ -171,7 +171,7 @@ spec:
      # Without security defined we got:
      # ERROR: failed to detect: refusing to run as root
       securityContext:
-        runAsUser: 1000
+        runAsUser: 0
         runAsGroup: 0
 
     - name: restore
