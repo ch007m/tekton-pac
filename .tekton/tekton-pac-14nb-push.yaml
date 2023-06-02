@@ -8,13 +8,13 @@ metadata:
     pipelinesascode.tekton.dev/max-keep-runs: "3"
     pipelinesascode.tekton.dev/on-event: '[push]'
     pipelinesascode.tekton.dev/on-target-branch: '[main]'
-  creationTimestamp: null
   labels:
     appstudio.openshift.io/application: tekton-pac
     appstudio.openshift.io/component: tekton-pac-14nb
     pipelines.appstudio.openshift.io/type: build
   name: tekton-pac-14nb-on-push
   namespace: cmoullia-tenant
+  # Do a little change to check if build is triggered
 spec:
   params:
   - name: dockerfile
