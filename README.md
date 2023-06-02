@@ -238,7 +238,7 @@ git branch -D ${BRANCH_NAME}
 git checkout -b ${BRANCH_NAME}
 
 mkdir -p .tekton
-wget https://raw.githubusercontent.com/ch007m/tekton-pac/main/k8s/pipeline-new-buildpacks.yml -O .tekton/pipelinerun.yaml
+wget https://raw.githubusercontent.com/ch007m/tekton-pac/main/k8s/pipeline-buildpacks.yml -O .tekton/pipelinerun.yaml
 
 git add .tekton
 git commit -asm "This is a buildpacks build using TektonCI"
