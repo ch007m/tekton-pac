@@ -164,8 +164,8 @@ spec:
           mountPath: /platform
         - name: empty-dir
           mountPath: /tekton/home
-      securityContext:
-        runAsNonRoot: true
+      #securityContext:
+        # runAsNonRoot: true -> fails as we got: container has runAsNonRoot and image will run as root (pod: "buildpacks-s86kg-buildpacks-pod_quarkus-demo(a91dccc2-ffee-4777-84b4-8a0a76520791
         #runAsUser:  1000 #"$(params.USER_ID)"
         #runAsGroup: 1000 #"$(params.GROUP_ID)"
 
