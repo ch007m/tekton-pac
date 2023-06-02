@@ -52,7 +52,7 @@ spec:
           - name: APP_IMAGE
             value: ttl.sh/c04768cb-2012-4280-990d-a9adf51c7462:2h
           - name: CNB_BUILDER_IMAGE
-            value: gcr.io/paketo-buildpacks/builder:tiny
+            value: gcr.io/paketo-buildpacks/builder:0.1.361-tiny
           - name: CNB_LIFECYCLE_IMAGE
             value: buildpacksio/lifecycle:0.16.3
           #- name: CNB_ORDER_PATH
