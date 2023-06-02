@@ -164,8 +164,8 @@ spec:
           mountPath: /platform
         - name: empty-dir
           mountPath: /tekton/home
-      #securityContext:
-        #privileged: true
+      securityContext:
+        privileged: false
         #runAsUser:  1000 #"$(params.USER_ID)"
         #runAsGroup: 1000 #"$(params.GROUP_ID)"
 
