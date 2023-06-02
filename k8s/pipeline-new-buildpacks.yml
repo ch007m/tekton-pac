@@ -8,7 +8,8 @@ metadata:
     pipelinesascode.tekton.dev/on-target-branch: "pac-buildpack-build"
 
     pipelinesascode.tekton.dev/task: "git-clone"
-    pipelinesascode.tekton.dev/task-1: "[https://raw.githubusercontent.com/ch007m/tekton-pac/main/k8s/task-builpack-phases.yml]"
+    #pipelinesascode.tekton.dev/task-1: "[https://raw.githubusercontent.com/ch007m/tekton-pac/main/k8s/task-builpack-phases.yml]"
+    pipelinesascode.tekton.dev/task-1: "[https://raw.githubusercontent.com/redhat-buildpacks/testing/main/k8s/tekton/buildpacks-phases.yml]"
     pipelinesascode.tekton.dev/task-2: "maven"
     pipelinesascode.tekton.dev/task-3: "kubernetes-actions"
 
@@ -52,7 +53,7 @@ spec:
           - name: APP_IMAGE
             value: ttl.sh/c04768cb-2012-4280-990d-a9adf51c7462:2h
           - name: CNB_BUILDER_IMAGE
-            value: paketobuildpacks/builder:0.1.361-tiny # gcr.io/paketo-buildpacks/builder:0.1.361-tiny
+            value: paketobuildpacks/builder:0.1.361-tiny
           - name: CNB_LIFECYCLE_IMAGE
             value: buildpacksio/lifecycle:0.16.3
           - name: RUN_IMAGE
