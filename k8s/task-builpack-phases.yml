@@ -157,7 +157,8 @@ spec:
         - name: empty-dir
           mountPath: /tekton/home
       securityContext:
-        runAsNonRoot: false
+        allowPrivilegeEscalation: false
+        runAsUser: 0
 
     - name: restore
       image: $(params.CNB_LIFECYCLE_IMAGE)
