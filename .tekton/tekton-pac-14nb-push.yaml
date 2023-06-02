@@ -19,13 +19,33 @@ metadata:
   namespace: cmoullia-tenant
   # Do a little change to check if build is triggered
 spec:
-  serviceAccountName: default
   params:
     - name: repo_url
       value: "{{ repo_url }}"
     - name: revision
       value: "{{ revision }}"
   pipelineSpec:
+    finally:
+      - name: show-sbom
+        params:
+          - name: IMAGE_URL
+            value: $(tasks.build-container.results.IMAGE_URL)
+        taskRef:
+          bundle: quay.io/redhat-appstudio-tekton-catalog/task-show-sbom:0.1@sha256:050bab50254e0377c68d63b6b679decfc655e30cad9ce4b0407fc8468852008d
+          name: show-sbom
+      - name: show-summary
+        params:
+          - name: pipelinerun-name
+            value: $(context.pipelineRun.name)
+          - name: git-url
+            value: $(tasks.clone-repository.results.url)?rev=$(tasks.clone-repository.results.commit)
+          - name: image-url
+            value: $(params.output-image)
+          - name: build-task-status
+            value: $(tasks.build-container.status)
+        taskRef:
+          bundle: quay.io/redhat-appstudio-tekton-catalog/task-summary:0.1@sha256:303f8e8fb23cfe651574acce03593b21fcd2e332dc2b7fb88b290d4546479449
+          name: summary
     params:
       - name: repo_url
       - name: revision
@@ -35,6 +55,23 @@ spec:
       - name: temp
       - name: cache
     tasks:
+      - name: init
+        params:
+          - name: image-url
+            value: $(params.output-image)
+          - name: rebuild
+            value: $(params.rebuild)
+          - name: skip-checks
+            value: $(params.skip-checks)
+          - name: skip-optional
+            value: $(params.skip-optional)
+          - name: pipelinerun-name
+            value: $(context.pipelineRun.name)
+          - name: pipelinerun-uid
+            value: $(context.pipelineRun.uid)
+        taskRef:
+          bundle: quay.io/redhat-appstudio-tekton-catalog/task-init:0.1@sha256:3c91ed3f7c9e48210fea7e8d9965a580034bbad740ff5e6bdb1123b930eead14
+          name: init
       - name: clone-repository
         params:
           - name: url
