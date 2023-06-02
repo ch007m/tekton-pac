@@ -59,7 +59,7 @@ spec:
       default: "1000"
     - name: GROUP_ID
       description: The group ID of the builder image user.
-      default: "1000"
+      default: "0"
     - name: USER_HOME
       description: Absolute path to the user's home directory.
       default: /tekton/home
@@ -166,8 +166,13 @@ spec:
           mountPath: /tekton/home
       #securityContext:
         # runAsNonRoot: true -> fails as we got: container has runAsNonRoot and image will run as root (pod: "buildpacks-s86kg-buildpacks-pod_quarkus-demo(a91dccc2-ffee-4777-84b4-8a0a76520791
-        #runAsUser:  1000 #"$(params.USER_ID)"
-        #runAsGroup: 1000 #"$(params.GROUP_ID)"
+        # runAsUser: "$(params.USER_ID)" -> dont work as YAML parsing fails
+        # runAsGroup: "$(params.GROUP_ID)" -> dont work as YAML parsing fails
+     # Without security defined we got:
+     # ERROR: failed to detect: refusing to run as root
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 0
 
     - name: restore
       image: $(params.CNB_LIFECYCLE_IMAGE)
