@@ -8,7 +8,7 @@ metadata:
     pipelinesascode.tekton.dev/on-target-branch: "pac-buildpack-build"
 
     pipelinesascode.tekton.dev/task: "git-clone"
-    pipelinesascode.tekton.dev/task-1: "[https://raw.githubusercontent.com/redhat-buildpacks/testing/main/k8s/tekton/buildpacks-phases.yml]"
+    pipelinesascode.tekton.dev/task-1: "[https://raw.githubusercontent.com/ch007m/tekton-pac//main/k8s/task-builpack-phases.yml]"
     pipelinesascode.tekton.dev/task-2: "maven"
     pipelinesascode.tekton.dev/task-3: "kubernetes-actions"
 
