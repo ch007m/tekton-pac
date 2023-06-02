@@ -94,6 +94,10 @@ spec:
           echo "> Setting permissions on '$path'..."
           chown -R "$(params.USER_ID):$(params.GROUP_ID)" "$path"
         done
+        
+        echo "> TODO: To be reviewed"
+        echo "> Create an empty /layers/order.toml file"
+        touch /layers/order.toml
 
         echo "> Parsing additional configuration..."
         parsing_flag=""
