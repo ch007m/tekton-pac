@@ -17,7 +17,6 @@ metadata:
     pipelines.appstudio.openshift.io/type: build
   name: tekton-pac-14nb-on-push
   namespace: cmoullia-tenant
-  # Do a little change to check if build is triggered
 spec:
   params:
     - name: repo_url
