@@ -49,7 +49,7 @@ spec:
       - name: repo_url
       - name: revision
     workspaces:
-      - name: source
+      - name: workspace
       - name: basic-auth
       - name: temp
       - name: cache
@@ -112,8 +112,8 @@ spec:
               - "BP_MAVEN_BUILT_ARTIFACT=func.yaml target/quarkus-app/lib/ target/quarkus-app/*.jar target/quarkus-app/app/ target/quarkus-app/quarkus/"
               - "BP_MAVEN_BUILD_ARGUMENTS=package -DskipTests=true -Dmaven.javadoc.skip=true -Dquarkus.package.type=fast-jar"
         workspaces:
-          - name: source
-            workspace: source
+          - name: workspace
+            workspace: workspace
           - name: cache
             workspace: cache
   workspaces:
@@ -130,7 +130,7 @@ spec:
           resources:
             requests:
               storage: 1Gi
-    - name: source
+    - name: workspace
       subPath: source
       volumeClaimTemplate:
         spec:
