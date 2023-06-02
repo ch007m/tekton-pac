@@ -10,3 +10,4 @@ wget https://raw.githubusercontent.com/ch007m/tekton-pac/main/k8s/pipeline-new-b
 git add .tekton
 git commit -asm "This is a buildpacks build using TektonCI"
 git push --set-upstream origin ${BRANCH_NAME}
+git checkout main
