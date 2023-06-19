@@ -172,7 +172,7 @@ spec:
       workspaces:
       - name: source
         workspace: workspace
-    - name: buildpack-container
+    - name: build-container
       params:
       - name: IMAGE
         value: $(params.output-image)
