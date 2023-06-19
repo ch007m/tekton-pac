@@ -190,7 +190,7 @@ spec:
         value: $(tasks.clone-repository.results.commit)
       # Buildpacks parameters
       - name: APP_IMAGE
-        value: ${IMAGE_NAME}
+        value: $(params.output-image)  #${IMAGE_NAME}
       - name: SOURCE_SUBPATH
         value: getting-started
       - name: CNB_BUILDER_IMAGE
@@ -223,6 +223,8 @@ spec:
       workspaces:
       - name: source
         workspace: workspace
+      results:
+        - IMAGE_URL: $(params.output-image)
 #    - name: build-container
 #      params:
 #      - name: IMAGE
