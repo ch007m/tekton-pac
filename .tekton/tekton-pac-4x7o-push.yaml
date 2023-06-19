@@ -172,7 +172,7 @@ spec:
       workspaces:
       - name: source
         workspace: workspace
-    - name: build-container
+    - name: buildpack-container
       params:
       - name: IMAGE
         value: $(params.output-image)
@@ -188,11 +188,33 @@ spec:
         value: $(params.image-expires-after)
       - name: COMMIT_SHA
         value: $(tasks.clone-repository.results.commit)
+      # Buildpacks parameters
+      - name: APP_IMAGE
+        value: ${IMAGE_NAME}
+      - name: SOURCE_SUBPATH
+        value: getting-started
+      - name: CNB_BUILDER_IMAGE
+        value: ${BUILDER_IMAGE}
+      - name: CNB_LIFECYCLE_IMAGE
+        value: ${LIFECYCLE_IMAGE}
+      - name: RUN_IMAGE
+        value: ${RUN_IMAGE}
+      - name: ENV_VARS
+        value:
+          - BP_NATIVE_IMAGE=false
+          - BP_MAVEN_BUILT_ARTIFACT=target/quarkus-app/lib/ target/quarkus-app/*.jar target/quarkus-app/app/ target/quarkus-app/quarkus/
+          - BP_MAVEN_BUILD_ARGUMENTS=package -DskipTests=true -Dmaven.javadoc.skip=true -Dquarkus.package.type=fast-jar
       runAfter:
       - prefetch-dependencies
       taskRef:
-        bundle: quay.io/redhat-appstudio-tekton-catalog/task-buildah:0.1@sha256:86c1cb114c11b7d2d3958a7ddcfa141c4f369dadb1e67d3af2f35ef0f7796071
-        name: buildah
+        resolver: git
+        params:
+          - name: url
+            value: https://github.com/redhat-buildpacks/testing.git
+          - name: revision
+            value: main
+          - name: pathInRepo
+            value: k8s/tekton/buildpacks-phases.yml
       when:
       - input: $(tasks.init.results.build)
         operator: in
@@ -201,6 +223,35 @@ spec:
       workspaces:
       - name: source
         workspace: workspace
+#    - name: build-container
+#      params:
+#      - name: IMAGE
+#        value: $(params.output-image)
+#      - name: DOCKERFILE
+#        value: $(params.dockerfile)
+#      - name: CONTEXT
+#        value: $(params.path-context)
+#      - name: HERMETIC
+#        value: $(params.hermetic)
+#      - name: PREFETCH_INPUT
+#        value: $(params.prefetch-input)
+#      - name: IMAGE_EXPIRES_AFTER
+#        value: $(params.image-expires-after)
+#      - name: COMMIT_SHA
+#        value: $(tasks.clone-repository.results.commit)
+#      runAfter:
+#      - prefetch-dependencies
+#      taskRef:
+#        bundle: quay.io/redhat-appstudio-tekton-catalog/task-buildah:0.1@sha256:86c1cb114c11b7d2d3958a7ddcfa141c4f369dadb1e67d3af2f35ef0f7796071
+#        name: buildah
+#      when:
+#      - input: $(tasks.init.results.build)
+#        operator: in
+#        values:
+#        - "true"
+#      workspaces:
+#      - name: source
+#        workspace: workspace
     - name: inspect-image
       params:
       - name: IMAGE_URL
