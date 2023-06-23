@@ -332,27 +332,27 @@ spec:
         operator: in
         values:
         - "true"
-    #- name: sast-snyk-check
-    #  params:
-    #  - name: SNYK_SECRET
-    #    value: $(params.snyk-secret)
-    #  runAfter:
-    #  - clone-repository
-    #  taskRef:
-    #    bundle: quay.io/redhat-appstudio-tekton-catalog/task-sast-snyk-check:0.1@sha256:6ec7690387f3610530bf99809f039549d2037f8a0e769c6e9db996b2d5f57552
-    #    name: sast-snyk-check
-    #  when:
-    #  - input: $(params.skip-checks)
-    #    operator: in
-    #    values:
-    #    - "false"
-    #  - input: $(params.snyk-secret)
-    #    operator: notin
-    #    values:
-    #    - ""
-    #  workspaces:
-    #  - name: workspace
-    #    workspace: workspace
+    - name: sast-snyk-check
+      params:
+      - name: SNYK_SECRET
+        value: $(params.snyk-secret)
+      runAfter:
+      - clone-repository
+      taskRef:
+        bundle: quay.io/redhat-appstudio-tekton-catalog/task-sast-snyk-check:0.1@sha256:6ec7690387f3610530bf99809f039549d2037f8a0e769c6e9db996b2d5f57552
+        name: sast-snyk-check
+      when:
+      - input: $(params.skip-checks)
+        operator: in
+        values:
+        - "false"
+      - input: $(params.snyk-secret)
+        operator: notin
+        values:
+        - ""
+      workspaces:
+      - name: workspace
+        workspace: workspace
     - name: clamav-scan
       params:
       - name: image-digest
