@@ -150,7 +150,7 @@ spec:
         values:
         - "true"
       workspaces:
-      - name: source #output
+      - name: output
         workspace: workspace
       - name: basic-auth
         workspace: git-auth
@@ -220,7 +220,7 @@ spec:
         values:
         - "true"
       workspaces:
-      - name: source
+      - name: output
         workspace: workspace
       # results:
       #   - IMAGE_URL: $(params.output-image)
