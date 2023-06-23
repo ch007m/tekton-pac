@@ -220,7 +220,7 @@ spec:
         values:
         - "true"
       workspaces:
-      - name: output
+      - name: source
         workspace: workspace
       # results:
       #   - IMAGE_URL: $(params.output-image)
