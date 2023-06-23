@@ -193,11 +193,11 @@ spec:
       - name: SOURCE_SUBPATH
         value: getting-started
       - name: CNB_BUILDER_IMAGE
-        value: ${BUILDER_IMAGE}
+        value: paketobuildpacks/builder:0.1.361-tiny #${BUILDER_IMAGE}
       - name: CNB_LIFECYCLE_IMAGE
-        value: ${LIFECYCLE_IMAGE}
+        value: buildpacksio/lifecycle:0.16.3 #${LIFECYCLE_IMAGE}
       - name: RUN_IMAGE
-        value: ${RUN_IMAGE}
+        value: paketobuildpacks/run:tiny #${RUN_IMAGE}
       - name: ENV_VARS
         value:
           - BP_NATIVE_IMAGE=false
