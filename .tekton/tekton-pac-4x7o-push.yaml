@@ -27,7 +27,7 @@ spec:
   - name: revision
     value: '{{revision}}'
   pipelineSpec:
-    #finally:
+    finally:
     #- name: show-sbom
     #  params:
     #  - name: IMAGE_URL
@@ -35,19 +35,19 @@ spec:
     #  taskRef:
     #    bundle: quay.io/redhat-appstudio-tekton-catalog/task-show-sbom:0.1@sha256:050bab50254e0377c68d63b6b679decfc655e30cad9ce4b0407fc8468852008d
     #    name: show-sbom
-    #- name: show-summary
-    #  params:
-    #  - name: pipelinerun-name
-    #    value: $(context.pipelineRun.name)
-    #  - name: git-url
-    #    value: $(tasks.clone-repository.results.url)?rev=$(tasks.clone-repository.results.commit)
-    #  - name: image-url
-    #    value: $(params.output-image)
-    #  - name: build-task-status
-    #    value: $(tasks.build-container.status)
-    #  taskRef:
-    #    bundle: quay.io/redhat-appstudio-tekton-catalog/task-summary:0.1@sha256:b1b68a5203e66e7f2d0b9fe7996364cac26aa43f95825f7d88f699acd0ab6ec4
-    #    name: summary
+    - name: show-summary
+      params:
+      - name: pipelinerun-name
+        value: $(context.pipelineRun.name)
+      - name: git-url
+        value: $(tasks.clone-repository.results.url)?rev=$(tasks.clone-repository.results.commit)
+      - name: image-url
+        value: $(params.output-image)
+      - name: build-task-status
+        value: $(tasks.build-container.status)
+      taskRef:
+        bundle: quay.io/redhat-appstudio-tekton-catalog/task-summary:0.1@sha256:b1b68a5203e66e7f2d0b9fe7996364cac26aa43f95825f7d88f699acd0ab6ec4
+        name: summary
     params:
     - description: Source Repository URL
       name: git-url
