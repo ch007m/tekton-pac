@@ -355,22 +355,22 @@ spec:
     #  workspaces:
     #  - name: workspace
     #    workspace: workspace
-    #- name: clamav-scan
-    #  params:
-    #  - name: image-digest
-    #    value: $(tasks.build-container.results.IMAGE_DIGEST)
-    #  - name: image-url
-    #    value: $(params.output-image) #$(tasks.build-container.results.IMAGE_URL)
-    #  runAfter:
-    #  - build-container
-    #  taskRef:
-    #    bundle: quay.io/redhat-appstudio-tekton-catalog/task-clamav-scan:0.1@sha256:0d45e85be887ab4449aa5d4463c156020aeb2e528c4b0d73d2d8008d11f96f46
-    #    name: clamav-scan
-    #  when:
-    #  - input: $(params.skip-checks)
-    #    operator: in
-    #    values:
-    #    - "false"
+    - name: clamav-scan
+      params:
+      - name: image-digest
+        value: $(tasks.build-container.results.IMAGE_DIGEST)
+      - name: image-url
+        value: $(tasks.build-container.results.IMAGE_URL)
+      runAfter:
+      - build-container
+      taskRef:
+        bundle: quay.io/redhat-appstudio-tekton-catalog/task-clamav-scan:0.1@sha256:0d45e85be887ab4449aa5d4463c156020aeb2e528c4b0d73d2d8008d11f96f46
+        name: clamav-scan
+      when:
+      - input: $(params.skip-checks)
+        operator: in
+        values:
+        - "true"
     #- name: sbom-json-check
     #  params:
     #  - name: IMAGE_URL
