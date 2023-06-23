@@ -191,7 +191,7 @@ spec:
       - name: APP_IMAGE
         value: $(params.output-image)  #${IMAGE_NAME}
       - name: SOURCE_SUBPATH
-        value: getting-started
+        value: "" #getting-started
       - name: CNB_BUILDER_IMAGE
         value: paketobuildpacks/builder:0.1.361-tiny #${BUILDER_IMAGE}
       - name: CNB_LIFECYCLE_IMAGE
