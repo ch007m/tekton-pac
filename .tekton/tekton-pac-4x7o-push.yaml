@@ -150,7 +150,7 @@ spec:
         values:
         - "true"
       workspaces:
-      - name: output
+      - name: source #output
         workspace: workspace
       - name: basic-auth
         workspace: git-auth
