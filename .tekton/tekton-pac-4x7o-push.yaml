@@ -28,13 +28,13 @@ spec:
     value: '{{revision}}'
   pipelineSpec:
     finally:
-    #- name: show-sbom
-    #  params:
-    #  - name: IMAGE_URL
-    #    value: $(params.output-image) #$(tasks.build-container.results.IMAGE_URL)
-    #  taskRef:
-    #    bundle: quay.io/redhat-appstudio-tekton-catalog/task-show-sbom:0.1@sha256:050bab50254e0377c68d63b6b679decfc655e30cad9ce4b0407fc8468852008d
-    #    name: show-sbom
+    - name: show-sbom
+      params:
+      - name: IMAGE_URL
+        value: $(tasks.build-container.results.IMAGE_URL)
+      taskRef:
+        bundle: quay.io/redhat-appstudio-tekton-catalog/task-show-sbom:0.1@sha256:050bab50254e0377c68d63b6b679decfc655e30cad9ce4b0407fc8468852008d
+        name: show-sbom
     - name: show-summary
       params:
       - name: pipelinerun-name
@@ -222,8 +222,6 @@ spec:
       workspaces:
       - name: source
         workspace: workspace
-      # results:
-      #   - IMAGE_URL: $(params.output-image)
 #    - name: build-container
 #      params:
 #      - name: IMAGE
@@ -253,25 +251,25 @@ spec:
 #      workspaces:
 #      - name: source
 #        workspace: workspace
-    #- name: inspect-image
-    #  params:
-    #  - name: IMAGE_URL
-    #    value: $(params.output-image) #$(tasks.build-container.results.IMAGE_URL)
-    #  - name: IMAGE_DIGEST
-    #    value: $(tasks.build-container.results.IMAGE_DIGEST)
-    #  runAfter:
-    #  - build-container
-    #  taskRef:
-    #    bundle: quay.io/redhat-appstudio-tekton-catalog/task-inspect-image:0.1@sha256:e58bbebab1b86345ca610592b32d8dde1a26c524c646df15569b89c8320ef87e
-    #    name: inspect-image
-    #  when:
-    #  - input: $(params.skip-checks)
-    #    operator: in
-    #    values:
-    #    - "false"
-    #  workspaces:
-    #  - name: source
-    #    workspace: workspace
+    - name: inspect-image
+      params:
+      - name: IMAGE_URL
+        value: $(tasks.build-container.results.IMAGE_URL)
+      - name: IMAGE_DIGEST
+        value: $(tasks.build-container.results.IMAGE_DIGEST)
+      runAfter:
+      - build-container
+      taskRef:
+        bundle: quay.io/redhat-appstudio-tekton-catalog/task-inspect-image:0.1@sha256:e58bbebab1b86345ca610592b32d8dde1a26c524c646df15569b89c8320ef87e
+        name: inspect-image
+      when:
+      - input: $(params.skip-checks)
+        operator: in
+        values:
+        - "false"
+      workspaces:
+      - name: source
+        workspace: workspace
     #- name: label-check
     #  runAfter:
     #  - inspect-image
@@ -371,22 +369,22 @@ spec:
         operator: in
         values:
         - "true"
-    #- name: sbom-json-check
-    #  params:
-    #  - name: IMAGE_URL
-    #    value: $(params.output-image) #$(tasks.build-container.results.IMAGE_URL)
-    #  - name: IMAGE_DIGEST
-    #    value: $(tasks.build-container.results.IMAGE_DIGEST)
-    #  runAfter:
-    #  - build-container
-    #  taskRef:
-    #    bundle: quay.io/redhat-appstudio-tekton-catalog/task-sbom-json-check:0.1@sha256:156ad4518ed89bb27e141566c6ace725f5b97738f3a2abf5a83e73215a2dd8e2
-    #    name: sbom-json-check
-    #  when:
-    #  - input: $(params.skip-checks)
-    #    operator: in
-    #    values:
-    #    - "false"
+    - name: sbom-json-check
+      params:
+      - name: IMAGE_URL
+        value: $(tasks.build-container.results.IMAGE_URL)
+      - name: IMAGE_DIGEST
+        value: $(tasks.build-container.results.IMAGE_DIGEST)
+      runAfter:
+      - build-container
+      taskRef:
+        bundle: quay.io/redhat-appstudio-tekton-catalog/task-sbom-json-check:0.1@sha256:156ad4518ed89bb27e141566c6ace725f5b97738f3a2abf5a83e73215a2dd8e2
+        name: sbom-json-check
+      when:
+      - input: $(params.skip-checks)
+        operator: in
+        values:
+        - "false"
     workspaces:
     - name: workspace
     - name: git-auth
