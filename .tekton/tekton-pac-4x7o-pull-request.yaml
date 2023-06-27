@@ -43,8 +43,8 @@ spec:
           script: |
             #!/usr/bin/env bash
             set -e
-            pack sbom download $IMAGE_URL --remote
             ls -la
+            pack sbom download $(params.IMAGE_URL) --remote
       workspaces:
         - name: source
           workspace: workspace
