@@ -34,6 +34,7 @@ spec:
     - name: show-sbom
       taskSpec:
         steps:
+        - name: show-sbom
           image: quay.io/halkyonio/buildpack-tools
           imagePullPolicy: Always
           script: |
