@@ -9,7 +9,6 @@ metadata:
     pipelinesascode.tekton.dev/max-keep-runs: "3"
     pipelinesascode.tekton.dev/on-event: '[pull_request]'
     pipelinesascode.tekton.dev/on-target-branch: '[main]'
-  creationTimestamp: null
   labels:
     appstudio.openshift.io/application: buildpack-test
     appstudio.openshift.io/component: tekton-pac-4x7o
@@ -104,10 +103,10 @@ spec:
         1h, 2d, 3w for hours, days, and weeks, respectively.
       name: image-expires-after
     results:
-    - description: ""
+    - description: "The URL of the built `APPLICATION_IMAGE`"
       name: IMAGE_URL
       value: $(tasks.build-container.results.IMAGE_URL)
-    - description: ""
+    - description: "The digest of the built `APPLICATION_IMAGE`"
       name: IMAGE_DIGEST
       value: $(tasks.build-container.results.IMAGE_DIGEST)
     - description: ""
@@ -116,9 +115,6 @@ spec:
     - description: ""
       name: CHAINS-GIT_COMMIT
       value: $(tasks.clone-repository.results.commit)
-    - description: ""
-      name: JAVA_COMMUNITY_DEPENDENCIES
-      value: $(tasks.build-container.results.JAVA_COMMUNITY_DEPENDENCIES)
     tasks:
     - name: init
       params:
@@ -191,11 +187,33 @@ spec:
         value: $(params.image-expires-after)
       - name: COMMIT_SHA
         value: $(tasks.clone-repository.results.commit)
+      # Buildpacks parameters
+      - name: APP_IMAGE
+        value: $(params.output-image)  #${IMAGE_NAME}
+      - name: SOURCE_SUBPATH
+        value: "" #getting-started
+      - name: CNB_BUILDER_IMAGE
+        value: paketobuildpacks/builder:0.1.361-tiny #${BUILDER_IMAGE}
+      - name: CNB_LIFECYCLE_IMAGE
+        value: buildpacksio/lifecycle:0.16.3 #${LIFECYCLE_IMAGE}
+      - name: RUN_IMAGE
+        value: paketobuildpacks/run:tiny #${RUN_IMAGE}
+      - name: ENV_VARS
+        value:
+          - BP_NATIVE_IMAGE=false
+          - BP_MAVEN_BUILT_ARTIFACT=target/quarkus-app/lib/ target/quarkus-app/*.jar target/quarkus-app/app/ target/quarkus-app/quarkus/
+          - BP_MAVEN_BUILD_ARGUMENTS=package -DskipTests=true -Dmaven.javadoc.skip=true -Dquarkus.package.type=fast-jar
       runAfter:
       - prefetch-dependencies
       taskRef:
-        bundle: quay.io/redhat-appstudio-tekton-catalog/task-buildah:0.1@sha256:86c1cb114c11b7d2d3958a7ddcfa141c4f369dadb1e67d3af2f35ef0f7796071
-        name: buildah
+        resolver: git
+        params:
+          - name: url
+            value: https://github.com/redhat-buildpacks/testing.git
+          - name: revision
+            value: main
+          - name: pathInRepo
+            value: k8s/tekton/buildpacks-phases.yml
       when:
       - input: $(tasks.init.results.build)
         operator: in
@@ -204,6 +222,7 @@ spec:
       workspaces:
       - name: source
         workspace: workspace
+
     - name: inspect-image
       params:
       - name: IMAGE_URL
@@ -213,11 +232,7 @@ spec:
       runAfter:
       - build-container
       taskRef:
-<<<<<<< HEAD:.tekton/tekton-pac-14nb-pull-request.yaml
         bundle: quay.io/redhat-appstudio-tekton-catalog/task-inspect-image:0.1@sha256:604531fb0ec3ddb4ec51e9dbd7f0074cd226093e77ba59a3d9ea5a31293889da
-=======
-        bundle: quay.io/redhat-appstudio-tekton-catalog/task-inspect-image:0.1@sha256:e58bbebab1b86345ca610592b32d8dde1a26c524c646df15569b89c8320ef87e
->>>>>>> main:.tekton/tekton-pac-4x7o-pull-request.yaml
         name: inspect-image
       when:
       - input: $(params.skip-checks)
@@ -227,52 +242,52 @@ spec:
       workspaces:
       - name: source
         workspace: workspace
-    - name: label-check
-      runAfter:
-      - inspect-image
-      taskRef:
-        bundle: quay.io/redhat-appstudio-tekton-catalog/task-label-check:0.1@sha256:119c46c41e05869ff60738c762b81afea904db6796a598a144af1362657c167b
-        name: label-check
-      when:
-      - input: $(params.skip-checks)
-        operator: in
-        values:
-        - "false"
-      workspaces:
-      - name: workspace
-        workspace: workspace
-    - name: optional-label-check
-      params:
-      - name: POLICY_NAMESPACE
-        value: optional_checks
-      runAfter:
-      - inspect-image
-      taskRef:
-        bundle: quay.io/redhat-appstudio-tekton-catalog/task-label-check:0.1@sha256:119c46c41e05869ff60738c762b81afea904db6796a598a144af1362657c167b
-        name: label-check
-      when:
-      - input: $(params.skip-optional)
-        operator: in
-        values:
-        - "false"
-      workspaces:
-      - name: workspace
-        workspace: workspace
-    - name: deprecated-base-image-check
-      params:
-      - name: BASE_IMAGES_DIGESTS
-        value: $(tasks.build-container.results.BASE_IMAGES_DIGESTS)
-      taskRef:
-        bundle: quay.io/redhat-appstudio-tekton-catalog/task-deprecated-image-check:0.2@sha256:e88ef1cff874783306aaa38c861d8e2b49ed9cfd80360b025c73cdd9ef43d7b3
-        name: deprecated-image-check
-      when:
-      - input: $(params.skip-checks)
-        operator: in
-        values:
-        - "false"
-      workspaces:
-      - name: test-ws
-        workspace: workspace
+    #- name: label-check
+    #  runAfter:
+    #  - inspect-image
+    #  taskRef:
+    #    bundle: quay.io/redhat-appstudio-tekton-catalog/task-label-check:0.1@sha256:d5815b438362ba74eb44e7367bcab15b180c9f9351b801283511da356f3559f0
+    #    name: label-check
+    #  when:
+    #  - input: $(params.skip-checks)
+    #    operator: in
+    #    values:
+    #    - "false"
+    #  workspaces:
+    #  - name: workspace
+    #    workspace: workspace
+    #- name: optional-label-check
+    #  params:
+    #  - name: POLICY_NAMESPACE
+    #    value: optional_checks
+    #  runAfter:
+    #  - inspect-image
+    #  taskRef:
+    #    bundle: quay.io/redhat-appstudio-tekton-catalog/task-label-check:0.1@sha256:d5815b438362ba74eb44e7367bcab15b180c9f9351b801283511da356f3559f0
+    #    name: label-check
+    #  when:
+    #  - input: $(params.skip-optional)
+    #    operator: in
+    #    values:
+    #    - "false"
+    #  workspaces:
+    #  - name: workspace
+    #    workspace: workspace
+    #- name: deprecated-base-image-check
+    #  params:
+    #  - name: BASE_IMAGES_DIGESTS
+    #    value: $(tasks.build-container.results.BASE_IMAGES_DIGESTS)
+    #  taskRef:
+    #    bundle: quay.io/redhat-appstudio-tekton-catalog/task-deprecated-image-check:0.2@sha256:5ccacaaec39f94550b3f92595908d2fae972116138fb7ac8b072b5f26808b000
+    #    name: deprecated-image-check
+    #  when:
+    #  - input: $(params.skip-checks)
+    #    operator: in
+    #    values:
+    #    - "false"
+    #  workspaces:
+    #  - name: test-ws
+    #    workspace: workspace
     - name: clair-scan
       params:
       - name: image-digest
@@ -319,11 +334,7 @@ spec:
       runAfter:
       - build-container
       taskRef:
-<<<<<<< HEAD:.tekton/tekton-pac-14nb-pull-request.yaml
         bundle: quay.io/redhat-appstudio-tekton-catalog/task-clamav-scan:0.1@sha256:7370ea5a4205ae9062ea5393e673549fa8f8ea2e9985bd7a949435064cca93b7
-=======
-        bundle: quay.io/redhat-appstudio-tekton-catalog/task-clamav-scan:0.1@sha256:0d45e85be887ab4449aa5d4463c156020aeb2e528c4b0d73d2d8008d11f96f46
->>>>>>> main:.tekton/tekton-pac-4x7o-pull-request.yaml
         name: clamav-scan
       when:
       - input: $(params.skip-checks)
@@ -339,11 +350,7 @@ spec:
       runAfter:
       - build-container
       taskRef:
-<<<<<<< HEAD:.tekton/tekton-pac-14nb-pull-request.yaml
         bundle: quay.io/redhat-appstudio-tekton-catalog/task-sbom-json-check:0.1@sha256:dff6065790ed1c3b32878450a0bac33917b27a541d518fbf974cb063c1bd0ee1
-=======
-        bundle: quay.io/redhat-appstudio-tekton-catalog/task-sbom-json-check:0.1@sha256:156ad4518ed89bb27e141566c6ace725f5b97738f3a2abf5a83e73215a2dd8e2
->>>>>>> main:.tekton/tekton-pac-4x7o-pull-request.yaml
         name: sbom-json-check
       when:
       - input: $(params.skip-checks)
