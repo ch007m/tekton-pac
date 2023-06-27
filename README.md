@@ -1,8 +1,8 @@
-#  Tekton Pipeline as Code
+#  Tekton Pipelines as Code
 
-Project created to test different Pipelines with [PipeLineAsCode](https://pipelinesascode.com)
+Project created to test different Pipelines with [PipeLinesAsCode](https://pipelinesascode.com)
 
-## How to play with Tekton PipelineAsCode
+## How to play with Tekton PipelinesAsCode
 
 - Create a kind cluster where you deploy an ingress controller and docker registry
 ```bash
@@ -47,12 +47,12 @@ spec:
               number: 9097
 EOF
 ```
-- If you don't use the `tkn-pac` client, you have to install now PipelineAsCode:
+- If you don't use the `tkn-pac` client, you have to install now PipelinesAsCode:
 ```bash
 kubectl apply -f https://raw.githubusercontent.com/openshift-pipelines/pipelines-as-code/stable/release.k8s.yaml
 ```
 
-- Expose a new route to allow to access the PipelineAsCode controller externally
+- Expose a new route to allow to access the PipelinesAsCode controller externally
 ```bash
 cat <<EOF | kubectl apply -f -
 apiVersion: networking.k8s.io/v1
@@ -109,7 +109,7 @@ EOF
 
 ## Set up a GitHub App
 
-To forward the GitHub events (commit, PR, etc) to Tekton PipelineAsCode it is needed to create a [GithubApp](https://pipelinesascode.com/docs/install/github_apps/).
+To forward the GitHub events (commit, PR, etc) to Tekton PipelinesAsCode it is needed to create a [GithubApp](https://pipelinesascode.com/docs/install/github_apps/).
 That could be done manually as described [here](https://pipelinesascode.com/docs/install/github_apps/#setup-manually) or using the `tkn-pac bootstrap github-app` client
 as showed hereafter:
 
@@ -169,7 +169,7 @@ kubectl get secret -n pipelines-as-code pipelines-as-code-secret -o json \
 
 ## Demo
 
-To test PipelineAsCode, we will have to create a `Repository`
+To test PipelinesAsCode, we will have to create a `Repository`
 ```bash
 kubectl create ns quarkus-demo
 kubectl delete repositories.pipelinesascode.tekton.dev/quarkus-hello -n quarkus-demo
