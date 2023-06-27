@@ -1,6 +1,6 @@
 #  Tekton Pipeline as Code
 
-Project created to test different Pipelines with [PipeLineAsCode](https://pipelinesascode.com). Test 1
+Project created to test different Pipelines with [PipeLineAsCode](https://pipelinesascode.com)
 
 ## How to play with Tekton PipelineAsCode
 
