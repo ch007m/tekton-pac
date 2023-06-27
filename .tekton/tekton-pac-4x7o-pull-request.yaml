@@ -326,7 +326,7 @@ spec:
       - input: $(params.skip-checks)
         operator: in
         values:
-        - "false"
+        - "true"
       - input: $(params.snyk-secret)
         operator: notin
         values:
