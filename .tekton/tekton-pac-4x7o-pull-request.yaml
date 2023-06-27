@@ -32,6 +32,9 @@ spec:
   pipelineSpec:
     finally:
     - name: show-sbom
+      params:
+      - name: IMAGE_URL
+        value: $(tasks.build-container.results.IMAGE_URL)
       taskSpec:
         steps:
         - name: show-sbom
@@ -40,10 +43,7 @@ spec:
           script: |
             #!/usr/bin/env bash
             set -e
-            pack version
-      # params:
-      # - name: IMAGE_URL
-      #   value: $(tasks.build-container.results.IMAGE_URL)
+            pack sbom download $IMAGE_URL --remote
       # taskRef:
       #   bundle: # quay.io/redhat-appstudio-tekton-catalog/task-show-sbom:0.1@sha256:23cc5e2315040ce142a9aa764fa455b31bb42baeb0c0ec049a12a19d844b2c8a
       #   name: show-sbom
