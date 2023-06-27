@@ -11,10 +11,10 @@ metadata:
     pipelinesascode.tekton.dev/on-target-branch: '[main]'
   creationTimestamp: null
   labels:
-    appstudio.openshift.io/application: tekton-pac
-    appstudio.openshift.io/component: tekton-pac-14nb
+    appstudio.openshift.io/application: buildpack-test
+    appstudio.openshift.io/component: tekton-pac-4x7o
     pipelines.appstudio.openshift.io/type: build
-  name: tekton-pac-14nb-on-pull-request
+  name: tekton-pac-4x7o-on-pull-request
   namespace: cmoullia-tenant
 spec:
   params:
@@ -25,7 +25,7 @@ spec:
   - name: image-expires-after
     value: 5d
   - name: output-image
-    value: quay.io/redhat-user-workloads/cmoullia-tenant/tekton-pac/tekton-pac-14nb:on-pr-{{revision}}
+    value: quay.io/redhat-user-workloads/cmoullia-tenant/buildpack-test/tekton-pac-4x7o:on-pr-{{revision}}
   - name: path-context
     value: .
   - name: revision
@@ -165,7 +165,11 @@ spec:
       runAfter:
       - clone-repository
       taskRef:
+<<<<<<< HEAD:.tekton/tekton-pac-14nb-pull-request.yaml
         bundle: quay.io/redhat-appstudio-tekton-catalog/task-prefetch-dependencies:0.1@sha256:498a081cc7396e5df4e1815ab92ff9090caecd1440720403b377001fb5151db7
+=======
+        bundle: quay.io/redhat-appstudio-tekton-catalog/task-prefetch-dependencies:0.1@sha256:8232d76d919a5b88609abd48c32fae1a91f4c712a49804d0cb80fa6a4b360b48
+>>>>>>> main:.tekton/tekton-pac-4x7o-pull-request.yaml
         name: prefetch-dependencies
       when:
       - input: $(params.hermetic)
@@ -183,14 +187,14 @@ spec:
         value: $(params.dockerfile)
       - name: CONTEXT
         value: $(params.path-context)
-      - name: DOCKER_AUTH
-        value: $(tasks.init.results.container-registry-secret)
       - name: HERMETIC
         value: $(params.hermetic)
       - name: PREFETCH_INPUT
         value: $(params.prefetch-input)
       - name: IMAGE_EXPIRES_AFTER
         value: $(params.image-expires-after)
+      - name: COMMIT_SHA
+        value: $(tasks.clone-repository.results.commit)
       runAfter:
       - prefetch-dependencies
       taskRef:
@@ -210,12 +214,14 @@ spec:
         value: $(tasks.build-container.results.IMAGE_URL)
       - name: IMAGE_DIGEST
         value: $(tasks.build-container.results.IMAGE_DIGEST)
-      - name: DOCKER_AUTH
-        value: $(tasks.init.results.container-registry-secret)
       runAfter:
       - build-container
       taskRef:
+<<<<<<< HEAD:.tekton/tekton-pac-14nb-pull-request.yaml
         bundle: quay.io/redhat-appstudio-tekton-catalog/task-inspect-image:0.1@sha256:604531fb0ec3ddb4ec51e9dbd7f0074cd226093e77ba59a3d9ea5a31293889da
+=======
+        bundle: quay.io/redhat-appstudio-tekton-catalog/task-inspect-image:0.1@sha256:e58bbebab1b86345ca610592b32d8dde1a26c524c646df15569b89c8320ef87e
+>>>>>>> main:.tekton/tekton-pac-4x7o-pull-request.yaml
         name: inspect-image
       when:
       - input: $(params.skip-checks)
@@ -277,8 +283,6 @@ spec:
         value: $(tasks.build-container.results.IMAGE_DIGEST)
       - name: image-url
         value: $(tasks.build-container.results.IMAGE_URL)
-      - name: docker-auth
-        value: $(tasks.init.results.container-registry-secret)
       runAfter:
       - build-container
       taskRef:
@@ -316,12 +320,14 @@ spec:
         value: $(tasks.build-container.results.IMAGE_DIGEST)
       - name: image-url
         value: $(tasks.build-container.results.IMAGE_URL)
-      - name: docker-auth
-        value: $(tasks.init.results.container-registry-secret)
       runAfter:
       - build-container
       taskRef:
+<<<<<<< HEAD:.tekton/tekton-pac-14nb-pull-request.yaml
         bundle: quay.io/redhat-appstudio-tekton-catalog/task-clamav-scan:0.1@sha256:7370ea5a4205ae9062ea5393e673549fa8f8ea2e9985bd7a949435064cca93b7
+=======
+        bundle: quay.io/redhat-appstudio-tekton-catalog/task-clamav-scan:0.1@sha256:0d45e85be887ab4449aa5d4463c156020aeb2e528c4b0d73d2d8008d11f96f46
+>>>>>>> main:.tekton/tekton-pac-4x7o-pull-request.yaml
         name: clamav-scan
       when:
       - input: $(params.skip-checks)
@@ -337,7 +343,11 @@ spec:
       runAfter:
       - build-container
       taskRef:
+<<<<<<< HEAD:.tekton/tekton-pac-14nb-pull-request.yaml
         bundle: quay.io/redhat-appstudio-tekton-catalog/task-sbom-json-check:0.1@sha256:dff6065790ed1c3b32878450a0bac33917b27a541d518fbf974cb063c1bd0ee1
+=======
+        bundle: quay.io/redhat-appstudio-tekton-catalog/task-sbom-json-check:0.1@sha256:156ad4518ed89bb27e141566c6ace725f5b97738f3a2abf5a83e73215a2dd8e2
+>>>>>>> main:.tekton/tekton-pac-4x7o-pull-request.yaml
         name: sbom-json-check
       when:
       - input: $(params.skip-checks)
