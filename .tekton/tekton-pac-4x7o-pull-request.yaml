@@ -33,12 +33,13 @@ spec:
     finally:
     - name: show-sbom
       taskSpec:
-        image: quay.io/halkyonio/buildpack-tools
-        imagePullPolicy: Always
-        script: |
-          #!/usr/bin/env bash
-          set -e
-          pack version
+        steps:
+          image: quay.io/halkyonio/buildpack-tools
+          imagePullPolicy: Always
+          script: |
+            #!/usr/bin/env bash
+            set -e
+            pack version
       # params:
       # - name: IMAGE_URL
       #   value: $(tasks.build-container.results.IMAGE_URL)
