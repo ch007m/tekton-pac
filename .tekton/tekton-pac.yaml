@@ -78,7 +78,7 @@ spec:
       - input: $(params.skip-step)
         operator: in
         values:
-          - "false"
+        - "false"
     params:
     - description: Source Repository URL
       name: git-url
