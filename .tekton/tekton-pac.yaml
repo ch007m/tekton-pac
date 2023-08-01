@@ -30,10 +30,6 @@ spec:
     value: .
   - name: revision
     value: '{{revision}}'
-  - description: A boolean indicating whether we would like to execute a step
-    default: "false"
-    name: enable-sbom
-    type: string
   pipelineSpec:
     finally:
     - name: show-sbom
@@ -105,6 +101,10 @@ spec:
     - default: "false"
       description: Force rebuild image
       name: rebuild
+      type: string
+    - description: A boolean indicating whether we would like to execute a step
+      default: "false"
+      name: enable-sbom
       type: string
     - default: "false"
       description: Skip checks against built image
