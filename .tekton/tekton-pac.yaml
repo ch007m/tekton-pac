@@ -14,7 +14,7 @@ metadata:
     appstudio.openshift.io/component: tekton-pac-4x7o
     pipelines.appstudio.openshift.io/type: build
     buildpack.snowdrop.dev: test-merged-file
-  name: tekton-pac-4x7o-on-pull-request
+  name: 'tekton-pac-build-{{revision}}'
   namespace: cmoullia-tenant
 spec:
   params:
@@ -25,7 +25,7 @@ spec:
   - name: image-expires-after
     value: 5d
   - name: output-image
-    value: quay.io/redhat-user-workloads/cmoullia-tenant/buildpack-test/tekton-pac-4x7o:on-pr-{{revision}}
+    value: quay.io/redhat-user-workloads/cmoullia-tenant/buildpack-test/tekton-pac:build-{{revision}}
   - name: path-context
     value: .
   - name: revision
