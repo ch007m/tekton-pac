@@ -75,10 +75,10 @@ spec:
         bundle: quay.io/redhat-appstudio-tekton-catalog/task-summary:0.1@sha256:b1b68a5203e66e7f2d0b9fe7996364cac26aa43f95825f7d88f699acd0ab6ec4
         name: summary
       when:
-        - input: $(params.skip-step)
-          operator: in
-          values:
-            - "false"
+      - input: $(params.skip-step)
+        operator: in
+        values:
+          - "false"
     params:
     - description: Source Repository URL
       name: git-url
