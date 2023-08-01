@@ -11,7 +11,7 @@ metadata:
     pipelinesascode.tekton.dev/on-target-branch: '[merged-pac]'
   labels:
     appstudio.openshift.io/application: buildpack-test
-    appstudio.openshift.io/component: tekton-pac-4x7o
+    appstudio.openshift.io/component: tekton-pac
     pipelines.appstudio.openshift.io/type: build
     buildpack.snowdrop.dev: test-merged-file
   name: 'tekton-pac-build-{{revision}}'
@@ -52,7 +52,13 @@ spec:
       workspaces:
         - name: workspace
           workspace: workspace
-      # taskRef:
+      when:
+      - input: $(params.skip-step)
+        operator: in
+        values:
+        - "false"
+      # Task cannot be used as sbom is already generatedby buildpack - see:
+      # - taskRef:
       #   bundle: # quay.io/redhat-appstudio-tekton-catalog/task-show-sbom:0.1@sha256:23cc5e2315040ce142a9aa764fa455b31bb42baeb0c0ec049a12a19d844b2c8a
       #   name: show-sbom
     - name: show-summary
@@ -68,6 +74,11 @@ spec:
       taskRef:
         bundle: quay.io/redhat-appstudio-tekton-catalog/task-summary:0.1@sha256:b1b68a5203e66e7f2d0b9fe7996364cac26aa43f95825f7d88f699acd0ab6ec4
         name: summary
+      when:
+        - input: $(params.skip-step)
+          operator: in
+          values:
+            - "false"
     params:
     - description: Source Repository URL
       name: git-url
@@ -98,6 +109,11 @@ spec:
     - default: "true"
       description: Skip optional checks, set false if you want to run optional checks
       name: skip-optional
+      type: string
+    - default: "false"
+    - default: "false"
+      description: Skip step from Pipeline
+      name: skip-step
       type: string
     - default: "false"
       description: Execute the build with network isolation
