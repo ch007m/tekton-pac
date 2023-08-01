@@ -57,9 +57,10 @@ spec:
           volumeMounts:
             - name: layers-dir
               mountPath: /layers
-      workspaces:
-        - name: workspace
-          workspace: workspace
+      # TODO: To be reviewed to see if we can share the project containing the sbom files generated
+      # workspaces:
+      #  - name: workspace
+      #    workspace: workspace
 
       # Task cannot be used as sbom is already generatedby buildpack - see:
       # - taskRef:
