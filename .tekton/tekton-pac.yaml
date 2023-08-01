@@ -11,7 +11,7 @@ metadata:
     pipelinesascode.tekton.dev/on-target-branch: '[main]'
   labels:
     appstudio.openshift.io/application: buildpack-test
-    appstudio.openshift.io/component: quarkus-hello
+    appstudio.openshift.io/component: tekton-pac
     pipelines.appstudio.openshift.io/type: build
     buildpack.snowdrop.dev: build-test-0
   name: 'rhtap-buildpack'
@@ -25,7 +25,7 @@ spec:
   - name: image-expires-after
     value: 5d
   - name: output-image
-    value: quay.io/redhat-user-workloads/cmoullia-tenant/buildpack-test/quarkus-hello:build-{{revision}}
+    value: quay.io/redhat-user-workloads/cmoullia-tenant/buildpack-test/tekton-pac:build-{{revision}}
   - name: path-context
     value: .
   - name: revision
